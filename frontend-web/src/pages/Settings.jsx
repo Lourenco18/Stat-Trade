@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { settingsAPI } from '../../api/api';
+import { settingsAPI } from '../api/api';
 import { Save, Loader } from 'lucide-react';
 
 export default function Settings() {

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "http://localhost:5001/api";
 
 export const getAuthHeader = () => {
   const token = localStorage.getItem("token");
@@ -13,7 +13,11 @@ export const getAuthHeader = () => {
 
 // Trades API
 export const tradesAPI = {
-  getAll: () => axios.get(`${API_URL}/trades`, getAuthHeader()),
+  getAll: (accountId) =>
+    axios.get(`${API_URL}/trades`, {
+      ...getAuthHeader(),
+      params: accountId ? { accountId } : {},
+    }),
   create: (trade) => axios.post(`${API_URL}/trades`, trade, getAuthHeader()),
   update: (id, trade) =>
     axios.put(`${API_URL}/trades/${id}`, trade, getAuthHeader()),
@@ -58,4 +62,23 @@ export const settingsAPI = {
   get: () => axios.get(`${API_URL}/settings`, getAuthHeader()),
   update: (settings) =>
     axios.put(`${API_URL}/settings`, settings, getAuthHeader()),
+};
+
+// Accounts API
+export const accountsAPI = {
+  getAll: () => axios.get(`${API_URL}/accounts`, getAuthHeader()),
+  getById: (id) => axios.get(`${API_URL}/accounts/${id}`, getAuthHeader()),
+  getStats: (id) =>
+    axios.get(`${API_URL}/accounts/${id}/stats`, getAuthHeader()),
+  create: (account) =>
+    axios.post(`${API_URL}/accounts`, account, getAuthHeader()),
+  update: (id, account) =>
+    axios.put(`${API_URL}/accounts/${id}`, account, getAuthHeader()),
+  updateBalance: (id, profitLoss) =>
+    axios.post(
+      `${API_URL}/accounts/${id}/update-balance`,
+      { profitLoss },
+      getAuthHeader()
+    ),
+  delete: (id) => axios.delete(`${API_URL}/accounts/${id}`, getAuthHeader()),
 };

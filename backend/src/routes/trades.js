@@ -4,13 +4,38 @@ import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
 
+const ensureAccountOwnership = async (accountId, userId) => {
+  if (!accountId) return true;
+  const result = await query(
+    `SELECT id FROM accounts WHERE id = $1 AND user_id = $2`,
+    [accountId, userId]
+  );
+  return result.rows.length > 0;
+};
+
 // Get all trades for user
 router.get("/", async (req, res) => {
   try {
-    const result = await query(
-      `SELECT * FROM trades WHERE user_id = $1 ORDER BY entry_date DESC`,
-      [req.user.userId]
-    );
+    const { accountId } = req.query;
+
+    if (
+      accountId &&
+      !(await ensureAccountOwnership(accountId, req.user.userId))
+    ) {
+      return res.status(403).json({ error: "Account not found" });
+    }
+
+    const params = [req.user.userId];
+    let sql = `SELECT * FROM trades WHERE user_id = $1`;
+
+    if (accountId) {
+      params.push(accountId);
+      sql += ` AND account_id = $2`;
+    }
+
+    sql += ` ORDER BY entry_date DESC`;
+
+    const result = await query(sql, params);
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -30,8 +55,18 @@ router.post("/", async (req, res) => {
       side,
       notes,
       emotion,
+      accountId,
+      stopLoss,
+      takeProfit,
     } = req.body;
     const tradeId = uuidv4();
+
+    if (
+      accountId &&
+      !(await ensureAccountOwnership(accountId, req.user.userId))
+    ) {
+      return res.status(403).json({ error: "Account not found" });
+    }
 
     const profitLoss =
       (exitPrice - entryPrice) * quantity * (side === "SELL" ? -1 : 1);
@@ -39,8 +74,8 @@ router.post("/", async (req, res) => {
 
     const result = await query(
       `INSERT INTO trades 
-       (id, user_id, symbol, entry_price, exit_price, entry_date, exit_date, quantity, side, profit_loss, roi, notes, emotion, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW())
+       (id, user_id, symbol, entry_price, exit_price, entry_date, exit_date, quantity, side, profit_loss, roi, notes, emotion, account_id, stop_loss, take_profit, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, NOW())
        RETURNING *`,
       [
         tradeId,
@@ -56,6 +91,9 @@ router.post("/", async (req, res) => {
         roi,
         notes,
         emotion,
+        accountId || null,
+        stopLoss || null,
+        takeProfit || null,
       ]
     );
 
@@ -79,7 +117,17 @@ router.put("/:id", async (req, res) => {
       side,
       notes,
       emotion,
+      accountId,
+      stopLoss,
+      takeProfit,
     } = req.body;
+
+    if (
+      accountId &&
+      !(await ensureAccountOwnership(accountId, req.user.userId))
+    ) {
+      return res.status(403).json({ error: "Account not found" });
+    }
 
     const profitLoss =
       (exitPrice - entryPrice) * quantity * (side === "SELL" ? -1 : 1);
@@ -89,8 +137,8 @@ router.put("/:id", async (req, res) => {
       `UPDATE trades SET 
        symbol = $2, entry_price = $3, exit_price = $4, entry_date = $5, 
        exit_date = $6, quantity = $7, side = $8, profit_loss = $9, roi = $10, 
-       notes = $11, emotion = $12, updated_at = NOW()
-       WHERE id = $1 AND user_id = $13
+       notes = $11, emotion = $12, account_id = $13, stop_loss = $14, take_profit = $15, updated_at = NOW()
+       WHERE id = $1 AND user_id = $16
        RETURNING *`,
       [
         id,
@@ -105,6 +153,9 @@ router.put("/:id", async (req, res) => {
         roi,
         notes,
         emotion,
+        accountId || null,
+        stopLoss || null,
+        takeProfit || null,
         req.user.userId,
       ]
     );

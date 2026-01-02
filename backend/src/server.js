@@ -15,6 +15,7 @@ import analyticsRoutes from "./routes/analytics.js";
 import diaryRoutes from "./routes/diary.js";
 import insightsRoutes from "./routes/insights.js";
 import settingsRoutes from "./routes/settings.js";
+import accountsRoutes from "./routes/accounts.js";
 
 // Import middleware
 import { authenticate } from "./middleware/auth.js";
@@ -65,6 +66,7 @@ app.use("/api/analytics", authenticate, analyticsRoutes);
 app.use("/api/diary", authenticate, diaryRoutes);
 app.use("/api/insights", authenticate, insightsRoutes);
 app.use("/api/settings", authenticate, settingsRoutes);
+app.use("/api/accounts", authenticate, accountsRoutes);
 
 // Socket.io events
 io.on("connection", (socket) => {

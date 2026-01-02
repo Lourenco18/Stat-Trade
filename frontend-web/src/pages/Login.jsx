@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../stores/authStore';
+import useAuthStore from '../stores/authStore';
 import { Mail, Lock, Loader } from 'lucide-react';
 
 export default function Login() {
@@ -34,7 +34,7 @@ export default function Login() {
             <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold text-gray-800">Stat-Trade</h1>
-                    <p className="text-gray-600 mt-2">Bem-vindo de volta</p>
+                    <p className="text-gray-600 mt-2">Welcome back</p>
                 </div>
 
                 {error && (
@@ -54,14 +54,14 @@ export default function Login() {
                                 value={formData.email}
                                 onChange={handleChange}
                                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder="seu@email.com"
+                                placeholder="your@email.com"
                                 required
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Senha</label>
+                        <label className="block text-sm font-medium text-gray-700">Password</label>
                         <div className="relative mt-1">
                             <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
                             <input
@@ -70,7 +70,7 @@ export default function Login() {
                                 value={formData.password}
                                 onChange={handleChange}
                                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder="Senha"
+                                placeholder="Password"
                                 required
                             />
                         </div>
@@ -84,21 +84,21 @@ export default function Login() {
                         {isLoading ? (
                             <>
                                 <Loader size={20} className="animate-spin" />
-                                Entrando...
+                                Signing in...
                             </>
                         ) : (
-                            'Entrar'
+                            'Sign In'
                         )}
                     </button>
                 </form>
 
                 <p className="text-center mt-6 text-gray-600">
-                    Não tem conta?{' '}
+                    Don't have an account?{' '}
                     <button
                         onClick={() => navigate('/register')}
                         className="text-blue-600 hover:text-blue-700 font-semibold"
                     >
-                        Registrar
+                        Register
                     </button>
                 </p>
             </div>

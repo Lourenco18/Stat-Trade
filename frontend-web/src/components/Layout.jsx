@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../stores/authStore';
-import { Menu, LogOut, BarChart3, TrendingUp, BookOpen, Lightbulb, Settings } from 'lucide-react';
+import useAuthStore from '../stores/authStore';
+import { Menu, LogOut, BarChart3, TrendingUp, BookOpen, Lightbulb, Settings, Wallet } from 'lucide-react';
 
 export default function Layout({ children }) {
     const navigate = useNavigate();
@@ -16,10 +16,11 @@ export default function Layout({ children }) {
 
     const navItems = [
         { icon: BarChart3, label: 'Dashboard', path: '/dashboard' },
-        { icon: TrendingUp, label: 'Meus Trades', path: '/trades' },
-        { icon: BookOpen, label: 'Diário', path: '/diary' },
-        { icon: Lightbulb, label: 'IA Insights', path: '/insights' },
-        { icon: Settings, label: 'Configurações', path: '/settings' }
+        { icon: Wallet, label: 'Accounts', path: '/accounts' },
+        { icon: TrendingUp, label: 'My Trades', path: '/trades' },
+        { icon: BookOpen, label: 'Diary', path: '/diary' },
+        { icon: Lightbulb, label: 'AI Insights', path: '/insights' },
+        { icon: Settings, label: 'Settings', path: '/settings' }
     ];
 
     return (
@@ -54,7 +55,7 @@ export default function Layout({ children }) {
                 <div className="p-4 border-t border-gray-800">
                     {sidebarOpen && (
                         <div className="mb-4">
-                            <p className="text-sm text-gray-400">Olá,</p>
+                            <p className="text-sm text-gray-400">Hello,</p>
                             <p className="font-semibold truncate">{user?.firstName || user?.email}</p>
                         </div>
                     )}
@@ -63,7 +64,7 @@ export default function Layout({ children }) {
                         className="w-full flex items-center justify-center gap-2 p-3 bg-red-600 hover:bg-red-700 rounded-lg transition"
                     >
                         <LogOut size={20} />
-                        {sidebarOpen && <span>Sair</span>}
+                        {sidebarOpen && <span>Logout</span>}
                     </button>
                 </div>
             </div>

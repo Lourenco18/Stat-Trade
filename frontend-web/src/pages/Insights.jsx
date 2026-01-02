@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { insightsAPI } from '../../api/api';
+import { insightsAPI } from '../api/api';
 import { Lightbulb, TrendingUp } from 'lucide-react';
 
 export default function Insights() {
@@ -48,8 +48,8 @@ export default function Insights() {
                         <div
                             key={idx}
                             className={`rounded-lg shadow p-6 border-l-4 ${insight.type === 'positive'
-                                    ? 'bg-green-50 border-green-500'
-                                    : 'bg-yellow-50 border-yellow-500'
+                                ? 'bg-green-50 border-green-500'
+                                : 'bg-yellow-50 border-yellow-500'
                                 }`}
                         >
                             <div className="flex gap-3">

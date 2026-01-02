@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { tradesAPI } from '../../api/api';
+import { tradesAPI } from '../api/api';
 import { Plus, Edit2, Trash2, Upload } from 'lucide-react';
 
 export default function Trades() {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { diaryAPI } from '../../api/api';
+import { diaryAPI } from '../api/api';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
 
 export default function Diary() {

@@ -9,6 +9,7 @@ import Trades from './pages/Trades';
 import Diary from './pages/Diary';
 import Insights from './pages/Insights';
 import Settings from './pages/Settings';
+import Accounts from './pages/Accounts';
 import './index.css';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                             <Layout>
                                 <Routes>
                                     <Route path="/dashboard" element={<Dashboard />} />
+                                    <Route path="/accounts" element={<Accounts />} />
                                     <Route path="/trades" element={<Trades />} />
                                     <Route path="/diary" element={<Diary />} />
                                     <Route path="/insights" element={<Insights />} />
