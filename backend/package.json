@@ -1,0 +1,29 @@
+{
+  "name": "stat-trade-backend",
+  "version": "1.0.0",
+  "description": "Trading Platform API with TradingView Integration",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "migrate": "node src/migrations/migrate.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "dotenv": "^16.3.1",
+    "pg": "^8.10.0",
+    "cors": "^2.8.5",
+    "axios": "^1.6.0",
+    "node-cron": "^3.0.2",
+    "socket.io": "^4.5.0",
+    "csv-parser": "^3.0.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
